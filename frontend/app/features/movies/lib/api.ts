@@ -1,5 +1,7 @@
 import axios from "axios";
 import type { Movie } from "@/features/movies/types/movie";
+import type { Paginated } from "@/features/movies/types/pagination";
+import type { MovieGenres } from "../types/genres";
 
 const api_key = process.env.TMDB_API_KEY;
 
@@ -13,4 +15,8 @@ const TMDB_API = axios.create({
 
 export async function getRandomMovies(): Promise<Paginated<Movie>> {
   return TMDB_API.get("discover/movie").then(({ data }) => data);
+}
+
+export async function getMovieGenres(): Promise<MovieGenres> {
+  return TMDB_API.get(`genre/movie/list`).then(({ data }) => data);
 }

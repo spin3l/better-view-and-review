@@ -10,8 +10,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const movie = await getRandomMovies();
-  return movie;
+  return await getRandomMovies();
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {

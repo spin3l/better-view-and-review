@@ -6,7 +6,11 @@ interface Props {
 }
 
 function MainPage({ movies }: Props) {
-  return <MovieList title="Example" movies={movies} />;
+  return (
+    <article className="h-fit w-full bg-gray-200">
+      <MovieList title="Example" movies={movies} />
+    </article>
+  );
 }
 
 export default MainPage;
