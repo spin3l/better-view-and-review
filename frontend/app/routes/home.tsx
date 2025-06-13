@@ -1,5 +1,6 @@
+import { getRandomMovies } from "@/features/movies/lib/api";
+import MainPage from "@/features/movies/pages/main-page";
 import type { Route } from "./+types/home";
-import { MainPage } from "../main-page/MainPage";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,6 +9,11 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
-  return <MainPage />;
+export async function loader({ params }: Route.LoaderArgs) {
+  const movie = await getRandomMovies();
+  return movie;
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
+  return <MainPage movies={loaderData.results} />;
 }
