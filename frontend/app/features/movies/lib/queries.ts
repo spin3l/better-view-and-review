@@ -15,7 +15,7 @@ export const movies = createQueryKeys("movies", {
   },
 });
 
-export const movieGenres = createQueryKeys("movie-genre", {
+export const movieGenres = createQueryKeys("movieGenres", {
   getAll: {
     queryKey: null,
     queryFn: () => getMovieGenres(),

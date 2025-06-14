@@ -2,14 +2,13 @@ import axios from "axios";
 import type { Movie } from "@/features/movies/types/movie";
 import type { Paginated } from "@/features/movies/types/pagination";
 import type { MovieGenres } from "../types/genres";
-
-const api_key = process.env.TMDB_API_KEY;
+import { env } from "@/env";
 
 const TMDB_API = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
   headers: {
     accept: "application/json",
-    Authorization: `Bearer ${api_key}`,
+    Authorization: `Bearer ${env.TMDB_API_KEY}`,
   },
 });
 
