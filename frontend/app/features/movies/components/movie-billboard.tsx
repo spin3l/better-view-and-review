@@ -21,22 +21,20 @@ function MovieBillboard({ movie }: Props) {
     : [];
 
   return (
-    <div className="relative h-full w-full rounded-lg bg-white flex flex-col gap-2">
+    <div className="relative h-full w-full rounded-lg bg-accent flex flex-col gap-2">
       <div className="relative">
         <div className="absolute flex gap-2 items-center justify-center right-0 bottom-0 translate-x-2 translate-y-4 h-8 w-32 z-1">
           <MovieBillboardAction
             icon={<Bookmark />}
             onClick={() => console.log("Bookmarked")}
-            fillColor="hover:text-yellow-500"
           />
           <MovieBillboardAction
             icon={<Heart />}
             onClick={() => console.log("Liked")}
-            fillColor="hover:text-red-500"
           />
         </div>
         <Suspense fallback="Loading">
-          <div className="overflow-hidden rounded-lg group">
+          <div className="overflow-hidden rounded-t-lg group">
             <img
               src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}.jpg`}
               className="w-full aspect-[2/3] object-cover rounded-t-lg transition-transform duration-300 hover:scale-120 hover:cursor-pointer group-hover:brightness-50"

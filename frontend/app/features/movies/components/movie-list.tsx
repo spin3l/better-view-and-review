@@ -10,13 +10,15 @@ interface Props {
 
 function MovieList({ title, movies }: Props) {
   return (
-    <div className="flex flex-col gap-y-2 py-4 px-8">
+    <div className="flex flex-col gap-y-2 py-4 px-8 ">
       <Link
-        className="flex gap-2 items-center justify-center w-fit hover:underline hover:cursor-pointer"
+        className="flex gap-2 items-center justify-center w-fit text-accent hover:underline hover:cursor-pointer"
         to={{ pathname: `/list/${title.toLowerCase()}` }}
       >
-        <h2 className="text-xl font-bold">{title}</h2>
-        <ChevronRight />
+        <h2 className="text-2xl font-bold">{title}</h2>
+        <div className="h-full">
+          <ChevronRight className="stroke-2" />
+        </div>
       </Link>
       <div className="flex gap-4 size-full overflow-x-scroll">
         {movies.map((movie, index) => (

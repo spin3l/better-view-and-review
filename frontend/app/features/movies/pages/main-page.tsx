@@ -2,13 +2,15 @@ import MovieList from "@/features/movies/components/movie-list";
 import type { Movie } from "../types/movie";
 
 interface Props {
-  movies: Movie[];
+  discover: Movie[];
+  upcoming: Movie[];
 }
 
-function MainPage({ movies }: Props) {
+function MainPage({ discover, upcoming }: Props) {
   return (
     <article className="h-fit w-full">
-      <MovieList title="Discover" movies={movies} />
+      <MovieList title="Discover" movies={discover} />
+      <MovieList title="Upcoming" movies={upcoming} />
     </article>
   );
 }

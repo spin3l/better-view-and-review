@@ -19,3 +19,7 @@ export async function getRandomMovies(): Promise<Paginated<Movie>> {
 export async function getMovieGenres(): Promise<MovieGenres> {
   return TMDB_API.get(`genre/movie/list`).then(({ data }) => data);
 }
+
+export async function getUpcoming(): Promise<Paginated<Movie>> {
+  return TMDB_API.get("movie/upcoming").then(({ data }) => data);
+}

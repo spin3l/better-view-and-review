@@ -1,6 +1,20 @@
 @import "tailwindcss";
 
-@theme {
+:root {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --barn-red: hsla(0, 100%, 24%, 1);
+  --fire-brick: hsla(356, 83%, 41%, 1);
+  --papaya-whip: hsla(40, 91%, 91%, 1);
+  --prussian-blue: hsla(201, 100%, 14%, 1);
+  --air-superiority-blue: hsla(203, 39%, 57%, 1);
+}
+
+@theme {
+  --color-primary: var(--barn-red);
+  --color-primary-foreground: var(--fire-brick);
+  --color-secondary: var(--prussian-blue);
+  --color-secondary-foreground: var(--air-superiority-blue);
+  --color-accent: var(--papaya-whip);
 }
