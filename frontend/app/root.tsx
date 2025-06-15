@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="h-screen min-h-screen min-w-screen bg-primary overflow-x-hidden">
+      <body className="h-screen min-h-screen min-w-screen bg-secondary overflow-x-hidden">
         <Navbar />
         <Providers>
           <div className="size-full flex justify-center px-32">{children}</div>
