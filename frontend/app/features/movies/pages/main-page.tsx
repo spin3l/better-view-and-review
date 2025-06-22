@@ -1,3 +1,4 @@
+"use client";
 import MovieList from "@/features/movies/components/movie-list";
 import type { Movie } from "../types/movie";
 
@@ -8,7 +9,7 @@ interface Props {
 
 function MainPage({ discover, upcoming }: Props) {
   return (
-    <article className="h-fit w-full">
+    <article className="h-128 w-full">
       <MovieList title="Discover" movies={discover} />
       <MovieList title="Upcoming" movies={upcoming} />
     </article>

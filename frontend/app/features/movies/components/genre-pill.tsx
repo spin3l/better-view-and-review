@@ -11,7 +11,7 @@ function GenrePill({ name }: Props) {
         pathname: `/genres`,
         search: `?genre=${name}`,
       }}
-      className="hover:underline"
+      className="pointer-events-auto hover:underline"
     >
       {name}
     </Link>

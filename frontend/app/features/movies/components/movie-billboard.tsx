@@ -37,16 +37,16 @@ function MovieBillboard({ movie }: Props) {
     : [];
 
   return (
-    <div className="relative h-full w-full rounded-lg bg-accent flex flex-col gap-2">
-      <div className="absolute size-full top-0.5 left-0.5 bg-secondary-foreground rounded-lg -z-2" />
+    <div className="relative bg-accent flex flex-col gap-2">
+      <div className="absolute size-full top-0 left-0.5 bg-secondary-foreground -z-2" />
       <div className="relative">
         {renderMovieActions(movie)}
         <Suspense fallback="Loading">
           <Link to={{ pathname: "/movies", search: `?movie=${movie.id}` }}>
-            <div className="overflow-hidden rounded-t-lg">
+            <div className="overflow-hidden">
               <img
                 src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}.jpg`}
-                className="w-full aspect-[2/3] object-cover rounded-t-lg transition-transform duration-300 hover:scale-120 hover:cursor-pointer group-hover:brightness-50"
+                className="w-full aspect-[2/3] object-cover transition-transform duration-300 hover:scale-120 hover:cursor-pointer hover:brightness-50"
               />
             </div>
           </Link>
@@ -54,12 +54,12 @@ function MovieBillboard({ movie }: Props) {
       </div>
       {/* Movie Description */}
       <div className="pt-4 p-4 flex flex-col gap-2">
-        <div className="flex flex-col font-thin text-sm overflow-x-scroll">
+        <div className="flex flex-col font-thin text-xs overflow-x-scroll">
           <p className="pointer-events-none">
             {movie.release_date.split("-")[0]}
           </p>
           <Suspense fallback="Loading">
-            <div>
+            <div className="pointer-events-none">
               {genres.slice(0, 3).map((genre, index) => (
                 <span key={genre}>
                   <GenrePill name={genre} />

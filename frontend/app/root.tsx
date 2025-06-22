@@ -37,7 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body className="h-screen min-h-screen min-w-screen bg-secondary overflow-x-hidden">
         <Navbar />
         <Providers>
-          <div className="size-full flex justify-center px-32">{children}</div>
+          <div className="size-full flex justify-center px-16">{children}</div>
         </Providers>
         <ScrollRestoration />
         <Scripts />
