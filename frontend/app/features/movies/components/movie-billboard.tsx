@@ -6,6 +6,7 @@ import type { Movie } from "../types/movie";
 import MovieBillboardAction from "./movie-billboard-action";
 import GenrePill from "./genre-pill";
 import { Link } from "react-router";
+import { useMoviesContext } from "../context/movies-wrapper";
 
 interface Props {
   movie: Movie;
@@ -27,12 +28,13 @@ const renderMovieActions = (movie: Movie) => {
 };
 
 function MovieBillboard({ movie }: Props) {
-  const query = useSuspenseQuery(movieGenres.getAll);
+  const { movieGenres } = useMoviesContext();
 
-  const genres = query.data
+  const genres = movieGenres
     ? movie.genre_ids.map(
         (id) =>
-          query.data.genres.find(({ id: _id }) => id === _id)?.name ?? "unknown"
+          movieGenres.genres.find(({ id: _id }) => id === _id)?.name ??
+          "unknown"
       )
     : [];
 

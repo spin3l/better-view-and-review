@@ -1,13 +1,16 @@
-"use client";
 import type { Movie } from "@/features/movies/types/movie";
 import { ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import MovieBillboard from "./movie-billboard";
 
+const SCROLL_DISTANCE = 600;
+const SCROLL_LEFT_THRESHOLD = 150;
+const SCROLL_TIMEOUT = 300;
+
 interface Props {
   title: string;
-  movies: Movie[];
+  children: Movie[];
 }
 
 const renderListTitle = (title: string) => {
@@ -27,22 +30,24 @@ const renderListTitle = (title: string) => {
 
 interface SkipMoviesProps {
   scrollBy: (distance: number) => void;
+  scrollDistance?: number;
   isRenderLeft?: boolean;
   isRenderRight?: boolean;
 }
 
 const renderSkipMovies = ({
   scrollBy,
+  scrollDistance = SCROLL_DISTANCE,
   isRenderLeft = true,
   isRenderRight = true,
 }: SkipMoviesProps) => {
   return (
-    <div className="absolute w-full h-full z-1 text-white pointer-events-none">
-      <div className="flex h-full items-start justify-between visible not-group-hover:invisible ease-in-out transition-all duration-100">
-        {isRenderLeft && (
+    <div className="absolute w-full h-full z-50 text-white pointer-events-none">
+      <div className="flex h-full items-start justify-between visible not-group-hover:invisible ease-in-out transition-all duration-100 pointer-events-none">
+        {isRenderLeft ? (
           <div
-            onClick={() => scrollBy(-200)}
-            className="flex items-center h-full w-8 rounded-lg pointer-events-auto hover:cursor-pointer relative"
+            className="flex items-center h-full w-8 rounded-lg pointer-events-auto hover:cursor-pointer relative z-50"
+            onClick={() => scrollBy(-scrollDistance)}
           >
             <div className="absolute size-full bg-gradient-to-r from-black to-transparent pointer-events-none" />
             <ChevronRight
@@ -50,11 +55,13 @@ const renderSkipMovies = ({
               aria-label="Scroll left"
             />
           </div>
+        ) : (
+          <div />
         )}
         {isRenderRight && (
           <div
-            onClick={() => scrollBy(200)}
-            className="flex items-center h-full w-8 rounded-lg pointer-events-auto hover:cursor-pointer relative"
+            onClick={() => scrollBy(scrollDistance)}
+            className="flex items-center h-full w-8 rounded-lg pointer-events-auto hover:cursor-pointer relative z-50"
           >
             <ChevronRight
               className="z-2 stroke-2 size-6 text-muted-foreground pointer-events-auto hover:text-accent transition-colors cursor-pointer"
@@ -68,7 +75,7 @@ const renderSkipMovies = ({
   );
 };
 
-function MovieList({ title, movies }: Props) {
+function MovieList({ title, children }: Props) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -81,7 +88,7 @@ function MovieList({ title, movies }: Props) {
       const el = scrollRef.current!;
       setCanScrollLeft(el.scrollLeft > 0);
       setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
-    }, 300);
+    }, SCROLL_TIMEOUT);
   };
 
   useEffect(() => {
@@ -89,9 +96,9 @@ function MovieList({ title, movies }: Props) {
     if (!el) return;
 
     const updateScrollState = () => {
-      setCanScrollLeft(el.scrollLeft > 0);
+      // console.log("Updating scroll state", el.scrollLeft);
+      setCanScrollLeft(el.scrollLeft > SCROLL_LEFT_THRESHOLD);
       setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
-      console.log("asdsad", el.scrollLeft);
     };
 
     updateScrollState();
@@ -108,14 +115,14 @@ function MovieList({ title, movies }: Props) {
       <div className="relative group">
         {renderSkipMovies({
           scrollBy,
-          isRenderLeft: !canScrollLeft,
-          isRenderRight: !canScrollRight,
+          isRenderLeft: canScrollLeft,
+          isRenderRight: canScrollRight,
         })}
         <div
           ref={scrollRef}
           className="flex gap-4 w-full h-full overflow-x-auto overflow-y-hidden relative"
         >
-          {movies.map((movie, index) => (
+          {children.map((movie, index) => (
             <div key={index} className="flex-shrink-0 w-64 h-full">
               <MovieBillboard movie={movie} />
             </div>

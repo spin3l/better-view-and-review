@@ -1,6 +1,6 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 import { QueryClient } from "@tanstack/react-query";
-import { getMovieGenres, getRandomMovies } from "./api";
+import { getMovieGenres, getDiscoverMovies } from "./api";
 
 const queryClient = new QueryClient();
 
@@ -11,7 +11,7 @@ export const movies = createQueryKeys("movies", {
   }),
   getRandom: {
     queryKey: null,
-    queryFn: () => getRandomMovies(),
+    queryFn: () => getDiscoverMovies(),
   },
 });
 

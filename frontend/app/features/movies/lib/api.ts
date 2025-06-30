@@ -12,7 +12,7 @@ const TMDB_API = axios.create({
   },
 });
 
-export async function getRandomMovies(): Promise<Paginated<Movie>> {
+export async function getDiscoverMovies(): Promise<Paginated<Movie>> {
   return TMDB_API.get("discover/movie").then(({ data }) => data);
 }
 

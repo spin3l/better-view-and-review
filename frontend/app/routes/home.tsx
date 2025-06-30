@@ -1,6 +1,11 @@
-import { getRandomMovies, getUpcoming } from "@/features/movies/lib/api";
-import MainPage from "@/features/movies/pages/main-page";
+import MovieList from "@/features/movies/components/movie-list";
+import {
+  getDiscoverMovies,
+  getMovieGenres,
+  getUpcoming,
+} from "@/features/movies/lib/api";
 import type { Route } from "./+types/home";
+import MoviesWrapper from "@/features/movies/context/movies-wrapper";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,15 +14,21 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  return await Promise.all([getRandomMovies(), getUpcoming()]);
+export async function loader() {
+  const [discover, upcoming, movieGenres] = await Promise.all([
+    getDiscoverMovies(),
+    getUpcoming(),
+    getMovieGenres(),
+  ]);
+  return { discover, upcoming, movieGenres };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
+  const { discover, upcoming, movieGenres } = loaderData;
   return (
-    <MainPage
-      discover={loaderData[0].results}
-      upcoming={loaderData[1].results}
-    />
+    <MoviesWrapper movieGenres={movieGenres} className="h-128 w-full">
+      <MovieList title="Discover">{discover.results}</MovieList>
+      <MovieList title="Upcoming">{upcoming.results}</MovieList>
+    </MoviesWrapper>
   );
 }
