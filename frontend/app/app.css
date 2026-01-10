@@ -12,7 +12,7 @@
 }
 
 @theme {
-  --color-primary: var(--barn-red);
+  --color-primary: var(--fire-brick);
   --color-primary-foreground: var(--fire-brick);
   --color-secondary: var(--prussian-blue);
   --color-secondary-foreground: var(--air-superiority-blue);

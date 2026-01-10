@@ -1,11 +1,9 @@
+import { container } from "@/di/container";
+import { MOVIE_SERVICE } from "@/di/tokens";
 import MovieList from "@/features/movies/components/movie-list";
-import {
-  getDiscoverMovies,
-  getMovieGenres,
-  getUpcoming,
-} from "@/features/movies/lib/api";
-import type { Route } from "./+types/home";
 import MoviesWrapper from "@/features/movies/context/movies-wrapper";
+import { useLoaderData } from "react-router";
+import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,20 +13,28 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader() {
-  const [discover, upcoming, movieGenres] = await Promise.all([
-    getDiscoverMovies(),
-    getUpcoming(),
-    getMovieGenres(),
+  const service = container.get(MOVIE_SERVICE);
+
+  const [movieGenres, discover, nowPlaying] = await Promise.all([
+    service.getMovieGenres(),
+    service.getDiscover(),
+    service.getMovies("top_rated"),
   ]);
-  return { discover, upcoming, movieGenres };
+
+  return {
+    movieGenres,
+    discover,
+    nowPlaying,
+  };
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
-  const { discover, upcoming, movieGenres } = loaderData;
+export default function Home() {
+  const { movieGenres, discover, nowPlaying } = useLoaderData<typeof loader>();
+
   return (
-    <MoviesWrapper movieGenres={movieGenres} className="h-128 w-full">
+    <MoviesWrapper movieGenres={movieGenres} className="w-full h-128">
+      <MovieList title="Now Playing">{nowPlaying.results}</MovieList>
       <MovieList title="Discover">{discover.results}</MovieList>
-      <MovieList title="Upcoming">{upcoming.results}</MovieList>
     </MoviesWrapper>
   );
 }

@@ -1,6 +1,6 @@
 import type { Movie } from "@/features/movies/types/movie";
 import { ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import MovieBillboard from "./movie-billboard";
 
@@ -15,7 +15,7 @@ interface Props {
 
 const renderListTitle = (title: string) => {
   return (
-    <div className="flex gap-8 text-accent items-end">
+    <div className="flex gap-8 text-gray-900 items-end">
       <h2 className="text-2xl font-bold h-fit">{title}</h2>
       <Link
         className="flex items-center justify-start hover:cursor-pointer"
@@ -77,26 +77,15 @@ const renderSkipMovies = ({
 
 function MovieList({ title, children }: Props) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-
-  const scrollBy = (distance: number) => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: distance, behavior: "smooth" });
-
-    setTimeout(() => {
-      const el = scrollRef.current!;
-      setCanScrollLeft(el.scrollLeft > 0);
-      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
-    }, SCROLL_TIMEOUT);
-  };
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
     const updateScrollState = () => {
-      // console.log("Updating scroll state", el.scrollLeft);
       setCanScrollLeft(el.scrollLeft > SCROLL_LEFT_THRESHOLD);
       setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
     };
@@ -105,8 +94,23 @@ function MovieList({ title, children }: Props) {
 
     el.addEventListener("scroll", updateScrollState);
     return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
       el.removeEventListener("scroll", updateScrollState);
     };
+  }, []);
+
+  const scrollBy = useCallback((distance: number) => {
+    if (!scrollRef.current) return;
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    scrollRef.current.scrollBy({ left: distance, behavior: "smooth" });
+    timeoutRef.current = setTimeout(() => {
+      const el = scrollRef.current!;
+      setCanScrollLeft(el.scrollLeft > 0);
+      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
+    }, SCROLL_TIMEOUT);
   }, []);
 
   return (
@@ -120,7 +124,7 @@ function MovieList({ title, children }: Props) {
         })}
         <div
           ref={scrollRef}
-          className="flex gap-4 w-full h-full overflow-x-auto overflow-y-hidden relative"
+          className="flex gap-4 w-full h-full overflow-x-auto relative"
         >
           {children.map((movie, index) => (
             <div key={index} className="flex-shrink-0 w-64 h-full">

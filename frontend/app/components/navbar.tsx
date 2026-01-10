@@ -13,15 +13,15 @@ const links = [
 
 function Navbar() {
   return (
-    <div className="w-full h-12 bg-primary items-center">
-      <nav className="size-full flex justify-between items-center px-32 py-2 font-semibold text-accent">
+    <div className="w-full h-12 bg-red-500 items-center">
+      <nav className="size-full flex justify-between items-center px-32 py-2 text-lg font-semibold text-gray-100">
         {links.map(({ name, pathname }) => (
           <Link
             key={pathname}
             to={{
               pathname: pathname,
             }}
-            className="h-full flex items-center hover:underline"
+            className="h-full flex items-center hover:underline underline-offset-4"
           >
             {name}
           </Link>
