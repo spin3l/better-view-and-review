@@ -9,8 +9,8 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import Providers from "./providers";
 import Navbar from "./components/navbar";
+import Providers from "./providers";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,10 +34,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="h-screen min-h-screen min-w-screen bg-gray-100 overflow-x-hidden">
+      <body className="bg-gray-100 min-w-screen h-screen min-h-screen overflow-x-hidden">
         <Navbar />
         <Providers>
-          <div className="size-full flex justify-center px-16">{children}</div>
+          <div className="flex justify-center size-full">{children}</div>
         </Providers>
         <ScrollRestoration />
         <Scripts />
@@ -67,11 +67,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <main className="mx-auto p-4 pt-16 container">
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre className="p-4 w-full overflow-x-auto">
           <code>{stack}</code>
         </pre>
       )}

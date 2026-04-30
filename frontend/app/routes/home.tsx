@@ -1,7 +1,6 @@
-import { container } from "@/di/container";
-import { MOVIE_SERVICE } from "@/di/tokens";
 import MovieList from "@/features/movies/components/movie-list";
 import MoviesWrapper from "@/features/movies/context/movies-wrapper";
+import { movieService } from "@/features/movies/lib/service";
 import { useLoaderData } from "react-router";
 import type { Route } from "./+types/home";
 
@@ -13,12 +12,10 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader() {
-  const service = container.get(MOVIE_SERVICE);
-
   const [movieGenres, discover, nowPlaying] = await Promise.all([
-    service.getMovieGenres(),
-    service.getDiscover(),
-    service.getMovies("top_rated"),
+    movieService.getMovieGenres(),
+    movieService.getDiscover(),
+    movieService.getMovies("now_playing"),
   ]);
 
   return {

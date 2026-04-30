@@ -2,24 +2,22 @@ import { z } from "zod";
 
 const isBrowser = typeof window !== "undefined";
 
-const envSchema = z.object({
+const EnvSchema = z.object({
   TMDB_API_KEY: z.string(),
 });
 
-export const env = (() => {
+type Environment = z.infer<typeof EnvSchema>;
+
+export const env: Environment = (() => {
   if (isBrowser) {
-    return {};
+    return {} as Environment;
   }
 
-  const parsed = envSchema.safeParse(process.env);
+  const parsed = EnvSchema.safeParse(process.env);
   if (!parsed.success) {
     console.error("Error parsing environment variables:", parsed.error.format);
     throw new Error("Invalid environment variables");
   }
-  console.log(
-    "Parsed environment variables:",
-    JSON.stringify(parsed.data, null, 2)
-  );
 
   return parsed.data;
 })();

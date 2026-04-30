@@ -15,14 +15,14 @@ interface Props {
 
 const renderListTitle = (title: string) => {
   return (
-    <div className="flex gap-8 text-gray-900 items-end">
-      <h2 className="text-2xl font-bold h-fit">{title}</h2>
+    <div className="flex items-end gap-8 text-gray-900">
+      <h2 className="h-fit font-bold text-2xl">{title}</h2>
       <Link
-        className="flex items-center justify-start hover:cursor-pointer"
+        className="flex justify-start items-center hover:cursor-pointer"
         to={{ pathname: `/list/${title.toLowerCase()}` }}
       >
         <h3 className="text-md">See more</h3>
-        <ChevronRight className="stroke-2 size-4 ml-1" />
+        <ChevronRight className="stroke-2 ml-1 size-4" />
       </Link>
     </div>
   );
@@ -42,16 +42,16 @@ const renderSkipMovies = ({
   isRenderRight = true,
 }: SkipMoviesProps) => {
   return (
-    <div className="absolute w-full h-full z-50 text-white pointer-events-none">
-      <div className="flex h-full items-start justify-between visible not-group-hover:invisible ease-in-out transition-all duration-100 pointer-events-none">
+    <div className="z-50 absolute w-full h-full text-white pointer-events-none">
+      <div className="not-group-hover:invisible visible flex justify-between items-start h-full transition-all duration-100 ease-in-out pointer-events-none">
         {isRenderLeft ? (
           <div
-            className="flex items-center h-full w-8 rounded-lg pointer-events-auto hover:cursor-pointer relative z-50"
+            className="z-50 relative flex items-center rounded-lg w-8 h-full hover:cursor-pointer pointer-events-auto"
             onClick={() => scrollBy(-scrollDistance)}
           >
-            <div className="absolute size-full bg-gradient-to-r from-black to-transparent pointer-events-none" />
+            <div className="absolute bg-gradient-to-r from-black to-transparent size-full pointer-events-none" />
             <ChevronRight
-              className="z-2 rotate-180 stroke-2 size-6 pointer-events-auto text-muted-foreground hover:text-accent transition-colors cursor-pointer"
+              className="z-2 stroke-2 size-6 text-muted-foreground hover:text-accent rotate-180 transition-colors cursor-pointer pointer-events-auto"
               aria-label="Scroll left"
             />
           </div>
@@ -61,13 +61,13 @@ const renderSkipMovies = ({
         {isRenderRight && (
           <div
             onClick={() => scrollBy(scrollDistance)}
-            className="flex items-center h-full w-8 rounded-lg pointer-events-auto hover:cursor-pointer relative z-50"
+            className="z-50 relative flex items-center rounded-lg w-8 h-full hover:cursor-pointer pointer-events-auto"
           >
             <ChevronRight
-              className="z-2 stroke-2 size-6 text-muted-foreground pointer-events-auto hover:text-accent transition-colors cursor-pointer"
+              className="z-2 stroke-2 size-6 text-muted-foreground hover:text-accent transition-colors cursor-pointer pointer-events-auto"
               aria-label="Scroll right"
             />
-            <div className="absolute size-full bg-gradient-to-l from-black to-transparent pointer-events-none" />
+            <div className="absolute bg-gradient-to-l from-black to-transparent size-full pointer-events-none" />
           </div>
         )}
       </div>
@@ -114,9 +114,9 @@ function MovieList({ title, children }: Props) {
   }, []);
 
   return (
-    <div className="flex flex-col gap-y-2 py-4 px-8">
+    <div className="flex flex-col gap-y-2 px-8 py-4">
       {renderListTitle(title)}
-      <div className="relative group">
+      <div className="group relative">
         {renderSkipMovies({
           scrollBy,
           isRenderLeft: canScrollLeft,
@@ -124,7 +124,7 @@ function MovieList({ title, children }: Props) {
         })}
         <div
           ref={scrollRef}
-          className="flex gap-4 w-full h-full overflow-x-auto relative"
+          className="relative flex gap-4 w-full h-full overflow-x-auto"
         >
           {children.map((movie, index) => (
             <div key={index} className="flex-shrink-0 w-64 h-full">

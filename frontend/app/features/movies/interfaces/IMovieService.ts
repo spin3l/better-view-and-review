@@ -8,4 +8,5 @@ export interface IMovieService {
   getMovies(category?: MovieCategory): Promise<Paginated<Movie>>;
   getMovieGenres(): Promise<MovieGenres>;
   getDiscover(): Promise<Paginated<Movie>>;
+  getMovieBillboardUrl(imagePath: string, size: string): string;
 }
